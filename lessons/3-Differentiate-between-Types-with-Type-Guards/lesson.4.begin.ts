@@ -65,13 +65,19 @@ function setFontSizeOnSelection(layers: Layer[], value: string | number) {
   });
 }
 
+const isImageLayer = (layer: Layer): layer is ImageLayer => {
+  return layer.type === LayerType.Image;
+};
+
 function setSrc(layer: ImageLayer, value: string) {
   layer.src = value;
 }
 
 function setSrcOnSelection(layers: Layer[], value: string) {
   layers.forEach(layer => {
-    setSrc(layer, value);
+    if (isImageLayer(layer)) {
+      setSrc(layer, value);
+    }
   });
 }
 

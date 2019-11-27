@@ -45,6 +45,14 @@ const imageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
+// function isTextLayer(layer: Layer): layer is TextLayer {
+//   return layer.type === LayerType.Text;
+// }
+
+const isTextLayer = (layer: Layer): layer is TextLayer => {
+  return layer.type === LayerType.Text;
+};
+
 function setFontSize(layer: TextLayer, value: string | number) {
   if (typeof value === "number") {
     layer.fontSize = `${value}px`;
@@ -53,11 +61,21 @@ function setFontSize(layer: TextLayer, value: string | number) {
   }
 }
 
-function setFontSizeOnSelection(layers: Layer[], value: string | number) {
+// function setFontSizeOnSelection(layers: Layer[], value: string | number) {
+//   layers.forEach(layer => {
+//     if (isTextLayer(layer)) {
+//       setFontSize(layer, value);
+//     }
+//   });
+// }
+
+const setFontSizeOnSelection = (layers: Layer[], value: string | number) => {
   layers.forEach(layer => {
-    setFontSize(layer, value);
+    if (isTextLayer(layer)) {
+      setFontSize(layer, value);
+    }
   });
-}
+};
 
 const project: Project = {
   layers: [imageLayer, textLayer1, textLayer2],
