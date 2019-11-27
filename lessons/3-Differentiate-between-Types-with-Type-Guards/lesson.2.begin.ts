@@ -93,11 +93,19 @@ function setFontSize(layer: TextLayer, value: string | number) {
   }
 }
 
-function setFontSizeOnSelection(layers: Layer[], value: string | number) {
+// function setFontSizeOnSelection(layers: Layer[], value: string | number) {
+//   layers.forEach(layer => {
+//     setFontSize(layer, value);
+//   });
+// }
+
+const setFontSizeOnSelection = (layers: Layer[], value: string | number) => {
   layers.forEach(layer => {
-    setFontSize(layer, value);
+    if (layer instanceof TextLayerClass) {
+      setFontSize(layer, value);
+    }
   });
-}
+};
 
 const project: Project = {
   layers: [imageLayer, textLayer1, textLayer2],
