@@ -27,34 +27,53 @@ const imageLayer: ImageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
-const project1: Project = {
-  layers: [imageLayer, textLayer],
-  size: projectSize
-};
+// const project1: Project = {
+//   layers: [imageLayer, textLayer],
+//   size: projectSize
+// };
 
-const project2: Project = {
-  layers: project1.layers.map(l =>
-    l.type === LayerType.Image
-      ? l
-      : {
-          ...l,
-          text: "Project 2"
-        }
-  ),
-  size: projectSize
-};
+// const project2: Project = {
+//   layers: project1.layers.map(l =>
+//     l.type === LayerType.Image
+//       ? l
+//       : {
+//           ...l,
+//           text: "Project 2"
+//         }
+//   ),
+//   size: projectSize
+// };
 
-const project3: Project = {
-  layers: project1.layers.map(l =>
-    l.type === LayerType.Image
-      ? l
-      : {
-          ...l,
-          text: "Project 3"
+// const project3: Project = {
+//   layers: project1.layers.map(l =>
+//     l.type === LayerType.Image
+//       ? l
+//       : {
+//           ...l,
+//           text: "Project 3"
+//         }
+//   ),
+//   size: projectSize
+// };
+
+function* projectGenerator() {
+  const startProject: Project = {
+    layers: [imageLayer],
+    size: projectSize
+  };
+  while (true) {
+    yield {
+      ...startProject,
+      layers: [
+        imageLayer,
+        {
+          ...textLayer,
+          text: "the time is " + new Date().toLocaleTimeString()
         }
-  ),
-  size: projectSize
-};
+      ]
+    };
+  }
+}
 
 function renderOverTime(projects: () => Iterable<Project>) {
   for (const proj of projects()) {
@@ -62,4 +81,5 @@ function renderOverTime(projects: () => Iterable<Project>) {
   }
 }
 
-renderOverTime(() => [project1, project2, project3]);
+// renderOverTime(() => [project1, project2, project3]);
+renderOverTime(projectGenerator);

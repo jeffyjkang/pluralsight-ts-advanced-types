@@ -27,13 +27,14 @@ const imageLayer: ImageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
-function* projectGenerator() {
+async function* projectGenerator() {
   const startProject: Project = {
     layers: [imageLayer],
     size: projectSize
   };
 
   while (true) {
+    await new Promise(r => setTimeout(r, 1000));
     yield {
       ...startProject,
       layers: [
@@ -47,9 +48,9 @@ function* projectGenerator() {
   }
 }
 
-function renderOverTime(projects: () => Iterable<Project>) {
-  for (const proj of projects()) {
-    render(proj);
+async function renderOverTime(projects: () => AsyncGenerator<Project>) {
+  for await (const proj of projects()) {
+    render(proj, true);
   }
 }
 
