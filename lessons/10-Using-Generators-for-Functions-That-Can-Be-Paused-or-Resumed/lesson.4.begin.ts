@@ -1,5 +1,23 @@
 import { Project, TextLayer, ImageLayer, LayerType, Size } from "./types";
 import { render } from "./render";
+import readline from "readline";
+
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+
+let shouldRender: boolean = true;
+
+process.stdin.on("keypress", (str, key) => {
+  if (key.ctrl && key.name === "c") {
+    process.exit();
+  } else if (key.name === "s") {
+    console.log("STOPPING");
+    shouldRender = false;
+  } else if (key.name === "g") {
+    console.log("STARTING");
+    shouldRender = true;
+  }
+});
 
 const projectSize: Size = {
   width: 512,
@@ -35,16 +53,19 @@ async function* projectGenerator() {
 
   while (true) {
     await new Promise(r => setTimeout(r, 1000));
-    yield {
-      ...startProject,
-      layers: [
-        imageLayer,
-        {
-          ...textLayer,
-          text: "The time is " + new Date().toLocaleTimeString()
-        }
-      ]
-    };
+
+    if (shouldRender) {
+      yield {
+        ...startProject,
+        layers: [
+          imageLayer,
+          {
+            ...textLayer,
+            text: "The time is " + new Date().toLocaleTimeString()
+          }
+        ]
+      };
+    }
   }
 }
 

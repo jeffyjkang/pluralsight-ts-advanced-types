@@ -27,9 +27,30 @@ const imageLayer: ImageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
-const project: Project = {
+const project1: Project = {
   layers: [imageLayer, textLayer],
   size: projectSize
 };
 
-render(project);
+const project2: Project = {
+  layers: project1.layers.map(l =>
+    l.type === LayerType.Image ? l : { ...l, text: "Project 2" }
+  ),
+  size: projectSize
+};
+
+const project3: Project = {
+  layers: project1.layers.map(l =>
+    l.type === LayerType.Image ? l : { ...l, text: "Project 3" }
+  ),
+  size: projectSize
+};
+
+function renderOverTime(projects: () => Iterable<Project>) {
+  for (const proj of projects()) {
+    render(proj);
+  }
+}
+
+// render(project);
+renderOverTime(() => [project1, project2, project3]);
