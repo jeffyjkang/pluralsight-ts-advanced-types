@@ -35,6 +35,33 @@ const imageLayer: ImageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
+// const setMeta = (layer: ImageLayer, meta: ImageMeta): void
+// const setMeta = (layer: TextLayer, meta: TextMeta): void
+// const setMeta = (layer: ImageLayer | TextLayer, meta: ImageMeta | TextMeta) => {
+//   layer.meta = meta;
+// };
+
+function setMeta(layer: ImageLayer, meta: ImageMeta): void;
+function setMeta(layer: TextLayer, meta: TextMeta): void;
+function setMeta(layer: ImageLayer | TextLayer, meta: ImageMeta | TextMeta) {
+  layer.meta = meta;
+}
+
+// setMeta(imageLayer, {
+//   format: "png",
+//   origin: "Download"
+// });
+
+// setMeta(textLayer, {
+//   fontFoundry: "Own foundry",
+//   licenseExpiration: new Date()
+// });
+
+setMeta(imageLayer, {
+  fontFoundry: "Own foundry",
+  licenseExpiration: new Date()
+});
+
 const project: Project = {
   layers: [imageLayer, textLayer],
   size: projectSize

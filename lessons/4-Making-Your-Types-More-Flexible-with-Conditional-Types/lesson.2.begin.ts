@@ -35,23 +35,33 @@ const imageLayer: ImageLayer = {
   maxBounds: { width: projectSize.width }
 };
 
-function setMeta(layer: TextLayer, meta: TextMeta): void;
-function setMeta(layer: ImageLayer, meta: ImageMeta): void;
-function setMeta(
-  layer: ImageLayer | TextLayer,
-  meta: ImageMeta | TextMeta
+// function setMeta(layer: TextLayer, meta: TextMeta): void;
+// function setMeta(layer: ImageLayer, meta: ImageMeta): void;
+function setMeta<T extends TextLayer | ImageLayer>(
+  layer: T,
+  // meta: ImageMeta | TextMeta
+  meta: T extends TextLayer ? TextMeta : ImageMeta
 ): void {
   layer.meta = meta;
 }
 
-setMeta(imageLayer, {
-  format: "png",
-  origin: "Download"
-});
+// setMeta(imageLayer, {
+//   format: "png",
+//   origin: "Download"
+// });
+
+// setMeta(textLayer, {
+//   fontFoundry: "OS stock",
+//   licenseExpiration: new Date(2020, 1, 1)
+// });
 
 setMeta(textLayer, {
-  fontFoundry: "OS stock",
-  licenseExpiration: new Date(2020, 1, 1)
+  fontFoundry: "Own foundry",
+  licenseExpiration: new Date()
+});
+setMeta(imageLayer, {
+  format: "jpg",
+  origin: "Download"
 });
 
 const project: Project = {
