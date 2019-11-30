@@ -13,3 +13,28 @@ function hitTest(elem1: Element, elem2: Element) {
     elem1.position.y + elem1.size.height > elem2.position.y
   );
 }
+
+const didHit = hitTest(
+  {
+    position: {
+      x: 500,
+      y: 200
+    },
+    size: {
+      height: 200,
+      width: 200
+    }
+  },
+  {
+    position: {
+      x: 300,
+      y: 200
+    },
+    size: {
+      height: 200,
+      width: 200
+    }
+  }
+);
+
+console.log(didHit);
