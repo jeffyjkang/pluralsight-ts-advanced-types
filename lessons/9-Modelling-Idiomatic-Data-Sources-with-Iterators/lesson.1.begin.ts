@@ -1,5 +1,29 @@
-import { Project, TextLayer, ImageLayer, LayerType, Size } from "./types";
+import {
+  Project,
+  TextLayer,
+  ImageLayer,
+  LayerType,
+  Size,
+  Layer
+} from "./types";
 import { render } from "./render";
+
+export function renderIterable(iterableProject: ProjectClass) {
+  let layers: Layer[] = [];
+  for (const layer of iterableProject) {
+    layers.push(layer);
+  }
+  layers = layers.sort((a, b) => <number>a.index - <number>b.index);
+  const project: Project = {
+    ...iterableProject,
+    layers
+  };
+  render(project);
+}
+
+class ProjectClass {
+  constructor(public size: Size, public layers: { [layerId: string]: Layer }) {}
+}
 
 const projectSize: Size = {
   width: 512,
@@ -14,7 +38,8 @@ const textLayer: TextLayer = {
   id: "10",
   rotation: 0,
   text: "Advanced TypeScript",
-  fontSize: "20px"
+  fontSize: "20px",
+  index: 1
 };
 
 const imageLayer: ImageLayer = {
@@ -24,12 +49,20 @@ const imageLayer: ImageLayer = {
   id: "20",
   rotation: 0,
   src: "ps-dark.png",
-  maxBounds: { width: projectSize.width }
+  maxBounds: { width: projectSize.width },
+  index: 0
 };
 
-const project: Project = {
-  layers: [imageLayer, textLayer],
-  size: projectSize
-};
+// const project: Project = {
+//   layers: [imageLayer, textLayer],
+//   size: projectSize
+// };
 
-render(project);
+// render(project);
+
+const project = new ProjectClass(projectSize, {
+  [textLayer.id]: textLayer,
+  [imageLayer.id]: imageLayer
+});
+
+renderIterable(project);
